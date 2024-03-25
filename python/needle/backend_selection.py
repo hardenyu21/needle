@@ -6,7 +6,7 @@ BACKEND = os.environ.get("NEEDLE_BACKEND", "ndl")
 
 
 if BACKEND == "ndl":
-    print("Using HYDRANET backend")
+    print("Using NEEDLE backend")
     from . import backend_ndarray as array_api
     from .backend_ndarray import (
         all_devices,
