@@ -151,9 +151,12 @@ class Transpose(TensorOp):
 
     def compute(self, a):
         if self.axes:
-            return array_api.swapaxes(a, self.axes[0], self.axes[1])
+            ax0, ax1 = self.axes[0], self.axes[1]
         else:
-            return array_api.swapaxes(a, a.ndim - 2, a.ndim - 1)
+            ax0, ax1 = a.ndim - 2, a.ndim - 1
+        permute_axes = list(range(a.ndim))
+        permute_axes[ax0], permute_axes[ax1] = ax1, ax0
+        return a.permute(permute_axes)
 
 
     def gradient(self, out_grad: Tensor, node: Tensor):
@@ -232,7 +235,7 @@ def summation(a, axes=None):
 
 class MatMul(TensorOp):
     def compute(self, a, b):
-        return array_api.matmul(a, b)
+        return a @ b
 
 
     def gradient(self, out_grad, node):
@@ -252,7 +255,7 @@ def matmul(a, b):
 
 class Negate(TensorOp):
     def compute(self, a):
-        return array_api.negative(a)
+        return mul_scalar(a, -1)
 
 
     def gradient(self, out_grad, node):

@@ -9,6 +9,7 @@ from . import backend_selection
 from . import backend_ndarray
 from .ops import *
 from .autograd import *
+from .backend_selection import *
 
 from .init import ones, zeros, zeros_like, ones_like
 
